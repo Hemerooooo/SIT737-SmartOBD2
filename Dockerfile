@@ -1,6 +1,6 @@
 from node:16-alpine
 
-WORKDIR /smart-obd2
+WORKDIR /SIT737-SmartOBD2
 
 COPY . .
 
