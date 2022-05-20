@@ -1,0 +1,24 @@
+name: Dockerization of SmartOBD
+on: push
+
+jobs:
+  docker-smartobd:
+    name: Build docker container for smartobd
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout smartobd code
+        uses: actions/checkout@v2
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+      - name: Build smartobd Docker image
+        run:
+          docker build smartobd --file dockerfile --tag smartobd:${{ github.run_number }}
+      - name: Tag smartobd Docker image 
+        run:
+          docker tag smartobd:${{ github.run_number }} ${{ secrets.DOCKER_REPONAME }}:smartobd_v${{ github.run_number }}
+      - name: Publish smartobd Docker image to docker hub
+        run:
+          docker push ${{ secrets.DOCKER_REPONAME }}:smartobd_v${{ github.run_number }}
