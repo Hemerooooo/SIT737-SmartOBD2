@@ -15,7 +15,7 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
       - name: Build Docker image
         run:
-          docker build --file Dockerfile --tag smartobd:${{ github.run_number }}
+          docker build - < Dockerfile --tag smartobd:${{ github.run_number }}
       - name: Tag Docker image 
         run:
           docker tag smartobd:${{ github.run_number }} ${{ secrets.DOCKER_REPONAME }}:smartobd_v${{ github.run_number }}
